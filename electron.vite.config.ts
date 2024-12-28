@@ -1,6 +1,10 @@
 import { resolve } from 'path'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   main: {
@@ -15,6 +19,27 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [vue()]
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler'
+        }
+      }
+    },
+    plugins: [
+      vue(),
+      AutoImport({
+        resolvers: [ElementPlusResolver()]
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()]
+      }),
+      visualizer({
+        // 打包后打开文件
+        open: false,
+        // 记录 gzip 压缩后大小
+        gzipSize: true
+      })
+    ]
   }
 })
