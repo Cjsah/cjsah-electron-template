@@ -1,10 +1,11 @@
-import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
-import vue from '@vitejs/plugin-vue'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import { visualizer } from 'rollup-plugin-visualizer'
+import { resolve } from 'path';
+import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
+import vue from '@vitejs/plugin-vue';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import { visualizer } from 'rollup-plugin-visualizer';
+import svgLoader from 'vite-svg-loader';
 
 export default defineConfig({
   main: {
@@ -16,7 +17,7 @@ export default defineConfig({
   renderer: {
     resolve: {
       alias: {
-        '@renderer': resolve('src/renderer/src')
+        '@renderer': resolve('./src/renderer/src')
       }
     },
     css: {
@@ -28,6 +29,7 @@ export default defineConfig({
     },
     plugins: [
       vue(),
+      svgLoader(),
       AutoImport({
         resolvers: [ElementPlusResolver()]
       }),
@@ -42,4 +44,4 @@ export default defineConfig({
       })
     ]
   }
-})
+});
